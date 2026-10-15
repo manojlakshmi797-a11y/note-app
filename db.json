@@ -1,0 +1,17 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "title": "Team Meeting",
+      "content": "Discuss Q1 roadmap and deadlines...",
+      "color": "amber",
+      "tags": [
+        "work"
+      ],
+      "archived": false,
+      "stock": 0,
+      "createdAt": "2026-02-10T10:00:00Z",
+      "updatedAt": "2026-02-10T10:00:00Z"
+    }
+  ]
+}
