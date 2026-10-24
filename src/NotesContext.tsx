@@ -29,12 +29,15 @@ type NotesContextValue = {
   fetchNotes: () => Promise<void>
 }
 
-const api = axios.create({ baseURL: 'http://localhost:3001' })
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:3001',
+})
 const NotesContext = createContext<NotesContextValue | undefined>(undefined)
 
 function getErrorMessage(error: unknown) {
   if (axios.isAxiosError(error)) {
-    return error.response?.data?.message ?? error.message
+    const responseMessage = error.response?.data?.message
+    return typeof responseMessage === 'string' ? responseMessage : error.message
   }
 
   return error instanceof Error ? error.message : 'An unexpected error occurred.'
@@ -42,7 +45,7 @@ function getErrorMessage(error: unknown) {
 
 export function NotesProvider({ children }: { children: ReactNode }) {
   const [notes, setNotes] = useState<Note[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const activeRequests = useRef(0)
 
@@ -71,7 +74,9 @@ export function NotesProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    void fetchNotes().catch(() => {})
+    void fetchNotes().catch((requestError) => {
+      console.error('Failed to load notes from the API:', requestError)
+    })
   }, [fetchNotes])
 
   const createNote = async (note: NewNote) => {

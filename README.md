@@ -1,19 +1,26 @@
-# React + Vite
+# Notes App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Notes are managed with React Context and persisted by JSON Server in `db.json`.
 
-Currently, two official plugins are available:
+## Run the app
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Start the API and Vite app in separate terminals from this directory:
 
-## React Compiler
+```sh
+npm run server
+npm run dev
+```
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+JSON Server listens on `http://localhost:3001`; the app runs on the URL printed by Vite. Override the API URL with `VITE_API_URL` if needed.
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+## Notes API
 
-## Expanding the ESLint configuration
+JSON Server exposes these standard collection routes:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `GET /notes`
+- `POST /notes`
+- `PUT /notes/:id`
+- `PATCH /notes/:id`
+- `DELETE /notes/:id`
+
+Each note contains `id`, `title`, `content`, `color`, `tags`, `archived`, `stock`, `createdAt`, and `updatedAt`. Changes are written to `db.json` and remain available after restarting the app.
